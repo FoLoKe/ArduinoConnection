@@ -1,0 +1,57 @@
+plugins {
+    id "org.openjfx.javafxplugin" version "0.0.9"
+    id 'edu.sc.seis.launch4j' version '2.4.6'
+}
+
+targetCompatibility = 11
+sourceCompatibility = 11
+
+javafx {
+    version='11.0.2'
+    modules=['javafx.controls', 'javafx.fxml']
+}
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = ["../android/assets"]
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.miglayout', name: 'miglayout', version: '3.7.4'
+
+}
+
+apply plugin: 'java'
+
+compileJava {
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls,javafx.fxml'
+        ]
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': "com.foloke.ardconn.Launcher"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+createExe {
+    headerType="gui"
+    mainClassName = "com.foloke.ardconn.Launcher"
+    outfile = "AA.exe"
+    jar = '../libs/desktop-1.0.jar'
+    jvmOptions = [
+            "--module-path lib",
+            '--add-modules javafx.controls,javafx.fxml'
+    ]
+}
+
+eclipse.project.name = appName + "-desktop"
