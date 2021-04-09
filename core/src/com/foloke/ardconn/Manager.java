@@ -58,6 +58,8 @@ public class Manager {
             if(serialPort != null && serialPort.isOpened()) {
                 try {
                     response = writeResult.get(5000, TimeUnit.MILLISECONDS);
+
+
                 } catch (Exception e) {
                     ui.output(e.toString() + "\n");
                     ui.showOnWall("TIMEOUT try again");
@@ -70,36 +72,45 @@ public class Manager {
                 return;
             }
 
-            if(response != null && !response.equals("ERROR")) {
-                ui.showOnWall(response);
 
-                switch (current) {
-                    case RELOAD:
-                        ui.showOnWall("READY TO SHOOT");
-                        ui.output("loaded\n");
-                        break;
-                    case SHOOT:
-                        ui.showOnWall("FIRED!!!");
-                        ui.output("fired\n");
-                        ui.askForHit();
-                        break;
-                    case DISARM:
-                        ui.showOnWall("DISARMED");
-                        ui.output("disarmed\n");
-                        break;
-                    case DISTANCE:
-                        ui.showOnWall(response + " m");
-                        ui.output("distance: " + response + " m\n");
-                        break;
-                    case NONE:
-                        ui.output("YOU SHOULDN'T SEE THAT TASK NOT CLOSED CORRECTLY");
-                        ui.showOnWall("ERROR\n");
-                        break;
+
+            if(response != null) {
+                String reply = response.substring(0, response.indexOf(":"));
+                String value = response.substring(response.indexOf(":"));
+
+                if (!reply.equals("ERROR")) {
+                    ui.showOnWall(reply);
+                    ui.output(value + "\n");
+
+                    switch (current) {
+                        case RELOAD:
+                        case DISARM:
+                            ui.showOnWall(value);
+                            ui.output(reply + "\n");
+                            break;
+                        case SHOOT:
+                            ui.showOnWall(value);
+                            ui.output(reply + "\n");
+                            ui.askForHit();
+                            break;
+                        case DISTANCE:
+                            ui.showOnWall(value + " m");
+                            ui.output("distance: " + value + " m\n");
+                            break;
+                        case NONE:
+                            ui.output("YOU SHOULDN'T SEE THAT TASK NOT CLOSED CORRECTLY");
+                            ui.showOnWall("ERROR\n");
+                            break;
+                    }
+                } else {
+                    ui.showOnWall(reply);
+                    ui.output(value);
                 }
             } else {
                 ui.showOnWall("ERROR, try again");
                 ui.output("error getting response\n");
             }
+
 
             executorService.shutdownNow();
             ui.unblock();
