@@ -3,6 +3,7 @@ package com.foloke.ardconn;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,13 +21,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 public class UIController {
     @FXML
@@ -47,13 +46,17 @@ public class UIController {
     @FXML
     public Menu comMenu;
 
+    @FXML
+    public AnchorPane hitDialog;
+
+    @FXML
+    public HitDialogController hitDialogController;
+
     public Manager manager;
 
     public AnimatedWall animatedWall;
 
     ParallelTransition loadParallelTransition;
-
-    Rectangle blurRectangle;
 
     @FXML
     private void initialize() {
@@ -100,61 +103,8 @@ public class UIController {
         });
 
         gaussianBlur = new GaussianBlur(0);
-        blurRectangle = new Rectangle(1000, 100);
-        blurRectangle.widthProperty().bind(upperAnchorPane.widthProperty());
-        blurRectangle.heightProperty().bind(upperAnchorPane.heightProperty());
-        blurRectangle.fillProperty().set(Color.TRANSPARENT);
 
         preparingVBox.setEffect(gaussianBlur);
-
-        hbox = new HBox();
-        hbox.setFillHeight(true);
-        hbox.setAlignment(Pos.CENTER);
-        hbox.prefHeightProperty().bind(upperAnchorPane.heightProperty());
-        hbox.prefWidthProperty().bind(upperAnchorPane.widthProperty());
-
-        SimpleDoubleProperty offsetValue = new SimpleDoubleProperty();
-        offsetValue.set(1);
-
-        Button hitButton = new Button("HIT");
-        hitButton.setPrefWidth(50);
-        HBox.setMargin(hitButton, new Insets(0, 10, 0, 0));
-        Button missButton = new Button("MISS");
-        missButton.setPrefWidth(50);
-
-        hitButton.setOnMouseClicked(event -> {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = Launcher.class.getClassLoader().getResource("main.fxml");
-            fxmlLoader.setLocation(url);
-            try {
-                VBox mainLayout = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-
-            RecordsController recordsController = fxmlLoader.getController();
-
-            recordsController.manager = manager;
-
-        });
-        hbox.getChildren().addAll(hitButton, missButton);
-        upperAnchorPane.getChildren().addAll(blurRectangle, hbox);
-
-        hitButton.setOnMouseClicked(event -> closeHitDialog());
-
-        //box.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
-
-        blurRectangle.setMouseTransparent(true);
-        hbox.setMouseTransparent(true);
-
-        blurPt = new ParallelTransition();
-
-        FillTransition ft2 = new FillTransition();
-        ft2.setShape(blurRectangle);
-        ft2.setDuration(Duration.seconds(1));
-        ft2.setFromValue(Color.TRANSPARENT);
-        ft2.setToValue(new Color(1, 1, 1, 0.25));
 
         Timeline timeline = new Timeline();
         KeyValue keyValue1 = new KeyValue(gaussianBlur.radiusProperty(), 0);
@@ -162,49 +112,64 @@ public class UIController {
         KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0), keyValue1);
         KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1), keyValue2);
         timeline.getKeyFrames().addAll(keyFrame1, keyFrame2);
+        blurPt.getChildren().add(timeline);
 
-        Timeline timeline1 = new Timeline();
-        KeyValue keyValue3 = new KeyValue(offsetValue, 1);
-        KeyValue keyValue4 = new KeyValue(offsetValue, 0);
-        KeyFrame keyFrame3 = new KeyFrame(Duration.seconds(0), keyValue3);
-        KeyFrame keyFrame4 = new KeyFrame(Duration.seconds(1), keyValue4);
-        timeline.getKeyFrames().addAll(keyFrame3, keyFrame4);
+//        hitButton.setOnMouseClicked(event -> {
+//            FXMLLoader fxmlLoader = new FXMLLoader();
+//            URL url = Launcher.class.getClassLoader().getResource("records.fxml");
+//            fxmlLoader.setLocation(url);
+//            try {
+//                VBox mainLayout = fxmlLoader.load();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return;
+//            }
+//
+//            RecordsController recordsController = fxmlLoader.getController();
+//
+//            recordsController.manager = manager;
+//
+//        });
+//
+//        hbox.getChildren().addAll(hitButton, missButton);
+//        upperAnchorPane.getChildren().addAll(blurRectangle, hbox);
+//
+//        hitButton.setOnMouseClicked(event -> closeHitDialog());
 
-        blurPt.getChildren().addAll(ft2, timeline, timeline1);
-        blurPt.setAutoReverse(true);
-        blurPt.setRate(1.25);
+        //box.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
 
-        hbox.translateYProperty().bind(offsetValue.multiply(upperAnchorPane.heightProperty().negate()));
+        //hitDialog.setMouseTransparent(true);
+        hitDialogController.bind(upperAnchorPane);
 
-        reloadButtonRect.heightProperty().bind(reloadButton.heightProperty().add(5));
-        reloadButtonRect.widthProperty().bind(reloadButton.widthProperty());
-        reloadButtonRect.layoutYProperty().set(5);
+        reloadCoolBtnController.setAction(this::reloadCommand);
+        disarmCoolBtnController.setAction(this::disarmCommand);
+        shootCoolBtnController.setAction(this::shootCommand);
 
-        disarmButtonRect.heightProperty().bind(disarmButton.heightProperty().add(5));
-        disarmButtonRect.widthProperty().bind(disarmButton.widthProperty());
-        disarmButtonRect.layoutYProperty().set(5);
+        reloadCoolBtnController.setColor(Color.web("#ff9400"));
+        disarmCoolBtnController.setColor(Color.web("#73e82b"));
+        shootCoolBtnController.setColor(Color.web("#ff2828"));
 
-        shootButtonRect.heightProperty().bind(shootButton.heightProperty().add(5));
-        shootButtonRect.widthProperty().bind(shootButton.widthProperty());
-        shootButtonRect.layoutYProperty().set(5);
+        reloadCoolBtnController.setText("RELOAD");
+        disarmCoolBtnController.setText("DISARM");
+        shootCoolBtnController.setText("SHOOT");
+
+        hitDialogController.setMissAction(this::closeHitDialog);
     }
 
     @FXML
-    Button reloadButton;
+    CoolButtonController reloadCoolBtnController;
 
     @FXML
-    Pane reloadButtonPane;
+    CoolButtonController disarmCoolBtnController;
 
     @FXML
-    Rectangle reloadButtonRect;
+    CoolButtonController shootCoolBtnController;
 
-    HBox hbox;
     GaussianBlur gaussianBlur;
-    ParallelTransition blurPt;
+    ParallelTransition blurPt = new ParallelTransition();
 
     public void openHitDialog() {
-        blurRectangle.setMouseTransparent(false);
-        hbox.setMouseTransparent(false);
+        hitDialogController.open();
         blurPt.stop();
         blurPt.setCycleCount(1);
         blurPt.playFromStart();
@@ -213,8 +178,8 @@ public class UIController {
     public void closeHitDialog() {
         blurPt.stop();
         blurPt.setCycleCount(2);
-        blurRectangle.setMouseTransparent(true);
-        hbox.setMouseTransparent(true);
+        blurPt.setAutoReverse(true);
+        hitDialogController.close();
         blurPt.playFrom(Duration.seconds(1));
     }
 
@@ -236,17 +201,14 @@ public class UIController {
         block = false;
     }
 
-    @FXML
     private void shootCommand() {
         manager.sendShootCommand();
     }
 
-    @FXML
     private void reloadCommand() {
         manager.sendReloadCommand();
     }
 
-    @FXML
     private void disarmCommand() {
         manager.sendDisarmCommand();
     }
@@ -283,77 +245,5 @@ public class UIController {
                 comMenu.getItems().addAll(items);
             });
         }
-    }
-
-    @FXML
-    public void reloadPush() {
-        reloadButton.setLayoutY(5);
-    }
-
-    @FXML
-    public void reloadRelease() {
-        reloadButton.setLayoutY(0);
-    }
-
-    @FXML
-    public void reloadHover() {
-        reloadButton.setLayoutY(-2);
-    }
-
-    @FXML
-    public void reloadMoved() {
-        reloadButton.setLayoutY(0);
-    }
-
-    @FXML
-    Button disarmButton;
-
-    @FXML
-    Rectangle disarmButtonRect;
-
-    @FXML
-    public void disarmPush() {
-        disarmButton.setLayoutY(5);
-    }
-
-    @FXML
-    public void disarmRelease() {
-        disarmButton.setLayoutY(0);
-    }
-
-    @FXML
-    public void disarmHover() {
-        disarmButton.setLayoutY(-2);
-    }
-
-    @FXML
-    public void disarmMoved() {
-        disarmButton.setLayoutY(0);
-    }
-
-    @FXML
-    Button shootButton;
-
-    @FXML
-    Rectangle shootButtonRect;
-
-    @FXML
-    public void shootPush() {
-        shootButton.setLayoutY(5);
-    }
-
-    @FXML
-    public void shootRelease() {
-        shootButton.setLayoutY(0);
-    }
-
-    @FXML
-    public void shootHover() {
-        shootButton.setLayoutY(-2);
-    }
-
-    @FXML
-    public void shootMoved() {
-        shootButton.setLayoutY(0);
     }
 }

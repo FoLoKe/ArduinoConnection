@@ -33,7 +33,6 @@
 -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -43,12 +42,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 
-<VBox minHeight="300.0" minWidth="300.0" prefHeight="580.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foloke.ardconn.UIController">
+<VBox minHeight="300.0" minWidth="300.0" prefHeight="461.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foloke.ardconn.UIController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar prefHeight="0.0" prefWidth="615.0" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" onAction="#menuOpen" onShowing="#menuOpen" text="File">
           <items>
@@ -77,44 +74,11 @@
                                     <Insets left="15.0" right="15.0" top="15.0" />
                                  </VBox.margin>
                               </Pane>
-                              <HBox alignment="TOP_CENTER" maxHeight="55.0" minHeight="55.0" prefHeight="55.0">
+                              <HBox alignment="TOP_CENTER" maxHeight="70.0" minHeight="50.0">
                                  <children>
-                                    <Pane fx:id="reloadButtonPane">
-                                       <children>
-                                          <Rectangle fx:id="reloadButtonRect" arcHeight="5.0" arcWidth="5.0" fill="#e17b1c" height="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-arc-width: 15; -fx-arc-height: 15;" width="61.0" />
-                                          <Button fx:id="reloadButton" mnemonicParsing="false" onMouseClicked="#reloadCommand" onMouseExited="#reloadHover" onMouseMoved="#reloadMoved" onMousePressed="#reloadPush" onMouseReleased="#reloadRelease" style="-fx-background-color: #ffb347ff; -fx-background-radius: 5;" text="RELOAD" textFill="WHITE">
-                                             <font>
-                                                <Font name="System Bold" size="16.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets right="15.0" />
-                                       </HBox.margin>
-                                    </Pane>
-                                    <Pane>
-                                       <children>
-                                          <Rectangle fx:id="disarmButtonRect" arcHeight="15.0" arcWidth="15.0" fill="#6ca835" height="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="61.0" />
-                                          <Button fx:id="disarmButton" mnemonicParsing="false" onMouseClicked="#disarmCommand" onMouseExited="#disarmHover" onMouseMoved="#disarmMoved" onMousePressed="#disarmPush" onMouseReleased="#disarmRelease" style="-fx-background-color: #86d044; -fx-background-radius: 5;" text="DISARM" textFill="WHITE">
-                                             <font>
-                                                <Font name="System Bold" size="16.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                       <padding>
-                                          <Insets right="15.0" />
-                                       </padding>
-                                    </Pane>
-                                    <Pane>
-                                       <children>
-                                          <Rectangle fx:id="shootButtonRect" arcHeight="15.0" arcWidth="15.0" fill="#c94432" height="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="55.0" />
-                                          <Button fx:id="shootButton" mnemonicParsing="false" onMouseClicked="#shootCommand" onMouseExited="#shootHover" onMouseMoved="#shootMoved" onMousePressed="#shootPush" onMouseReleased="#shootRelease" style="-fx-background-color: #fc523b; -fx-background-radius: 5;" text="SHOOT" textFill="WHITE">
-                                             <font>
-                                                <Font name="System Bold" size="16.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                    </Pane>
+                                    <fx:include fx:id="reloadCoolBtn" source="elevatedButton.fxml" />
+                                    <fx:include fx:id="disarmCoolBtn" source="elevatedButton.fxml" />
+                                    <fx:include fx:id="shootCoolBtn" source="elevatedButton.fxml" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -122,6 +86,7 @@
                               </HBox>
                            </children>
                         </VBox>
+                        <fx:include fx:id="hitDialog" source="hit.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
