@@ -80,4 +80,9 @@ public class Launcher extends Application implements UI {
     public void askForHit() {
         uiController.openHitDialog();
     }
+
+    @Override
+    public void unlockRecords() {
+        uiController.unlockRecords();
+    }
 }

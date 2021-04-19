@@ -2,17 +2,11 @@ package com.foloke.ardconn;
 
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Point3D;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.GaussianBlur;
@@ -20,9 +14,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +42,9 @@ public class UIController {
 
     @FXML
     public HitDialogController hitDialogController;
+
+    @FXML
+    public RecordsController recordsDialogController;
 
     public Manager manager;
 
@@ -114,32 +108,8 @@ public class UIController {
         timeline.getKeyFrames().addAll(keyFrame1, keyFrame2);
         blurPt.getChildren().add(timeline);
 
-//        hitButton.setOnMouseClicked(event -> {
-//            FXMLLoader fxmlLoader = new FXMLLoader();
-//            URL url = Launcher.class.getClassLoader().getResource("records.fxml");
-//            fxmlLoader.setLocation(url);
-//            try {
-//                VBox mainLayout = fxmlLoader.load();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return;
-//            }
-//
-//            RecordsController recordsController = fxmlLoader.getController();
-//
-//            recordsController.manager = manager;
-//
-//        });
-//
-//        hbox.getChildren().addAll(hitButton, missButton);
-//        upperAnchorPane.getChildren().addAll(blurRectangle, hbox);
-//
-//        hitButton.setOnMouseClicked(event -> closeHitDialog());
-
-        //box.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
-
-        //hitDialog.setMouseTransparent(true);
         hitDialogController.bind(upperAnchorPane);
+        recordsDialogController.bind(upperAnchorPane);
 
         reloadCoolBtnController.setAction(this::reloadCommand);
         disarmCoolBtnController.setAction(this::disarmCommand);
@@ -154,6 +124,14 @@ public class UIController {
         shootCoolBtnController.setText("SHOOT");
 
         hitDialogController.setMissAction(this::closeHitDialog);
+        hitDialogController.setHitAction(this::openRecords);
+
+        recordsDialogController.setCancelAction(this::closeRecordsDialog);
+        recordsDialogController.setSaveAction(() -> {
+                recordsDialogController.lock(true);
+                writeRecord(recordsDialogController.getName());
+            }
+        );
     }
 
     @FXML
@@ -175,11 +153,25 @@ public class UIController {
         blurPt.playFromStart();
     }
 
+    public void openRecords() {
+        hitDialogController.close();
+        recordsDialogController.setDistance(manager.distance);
+        recordsDialogController.open();
+    }
+
     public void closeHitDialog() {
         blurPt.stop();
         blurPt.setCycleCount(2);
         blurPt.setAutoReverse(true);
         hitDialogController.close();
+        blurPt.playFrom(Duration.seconds(1));
+    }
+
+    public void closeRecordsDialog() {
+        blurPt.stop();
+        blurPt.setCycleCount(2);
+        blurPt.setAutoReverse(true);
+        recordsDialogController.close();
         blurPt.playFrom(Duration.seconds(1));
     }
 
@@ -211,6 +203,10 @@ public class UIController {
 
     private void disarmCommand() {
         manager.sendDisarmCommand();
+    }
+
+    private void writeRecord(String name) {
+        manager.writeRecord(name);
     }
 
     ToggleGroup toggleGroup = new ToggleGroup();
@@ -245,5 +241,15 @@ public class UIController {
                 comMenu.getItems().addAll(items);
             });
         }
+    }
+
+
+    public void unlockRecords() {
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        recordsDialogController.lock(false);
     }
 }

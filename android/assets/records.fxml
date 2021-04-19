@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
@@ -11,16 +10,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foloke.ardconn.RecordsController">
+<AnchorPane fx:id="rootAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foloke.ardconn.RecordsController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <TextField fx:id="nameTextField" maxWidth="200.0" promptText="Yout name">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </TextField>
             <Label fx:id="distanceLabel" text="Distance: ">
                <VBox.margin>
                   <Insets bottom="15.0" top="15.0" />
@@ -29,6 +22,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <TextField fx:id="nameTextField" maxWidth="200.0" promptText="Yout name">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </TextField>
             <Separator prefWidth="200.0" />
             <ListView fx:id="recordsListView">
                <VBox.margin>
@@ -37,12 +35,8 @@
             </ListView>
             <HBox alignment="TOP_CENTER" fillHeight="false">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#cancelRecord" text="Cancel">
-                     <HBox.margin>
-                        <Insets right="15.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#applyRecord" text="OK" />
+                  <fx:include fx:id="saveBtn" source="elevatedButton.fxml" />
+                  <fx:include fx:id="cancelBtn" source="elevatedButton.fxml" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" top="15.0" />

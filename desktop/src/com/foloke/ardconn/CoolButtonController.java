@@ -19,10 +19,11 @@ public class CoolButtonController {
 
     private Action action;
 
+    private Color initialColor;
 
     @FXML
     private void initialize() {
-
+        initialColor = Color.LIGHTBLUE;
     }
 
     @FXML
@@ -62,16 +63,27 @@ public class CoolButtonController {
     }
 
     public void setColor(Color color) {
-        actualButton.setStyle(actualButton.getStyle().concat("-fx-background-color: " + toRgba(color)));
+        initialColor = color;
+        actualButton.setStyle(actualButton.getStyle().concat("-fx-background-color: " + toRgba(color, color.getOpacity())));
         backgroundPane.setFill(color.darker());
         //actualButton.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
     }
 
-    private String toRgba(Color color) {
+    private String toRgba(Color color, double opacity) {
         int r = (int) (255 * color.getRed());
         int g = (int) (255 * color.getGreen());
         int b = (int) (255 * color.getBlue());
-        int a = (int) (255 * color.getOpacity());
+        int a = (int) (255 * opacity);
         return String.format("#%02x%02x%02x%02x", r, g, b, a);
+    }
+
+    public void lock() {
+        actualButton.setDisable(true);
+        backgroundPane.setFill(Color.web(toRgba(initialColor.darker(), 0.25)));
+    }
+
+    public void unlock() {
+        actualButton.setDisable(false);
+        backgroundPane.setFill(initialColor.darker());
     }
 }

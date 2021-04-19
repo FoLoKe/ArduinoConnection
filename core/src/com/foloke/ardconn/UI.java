@@ -7,4 +7,5 @@ public interface UI {
     void block();
     void unblock();
     void askForHit();
+    void unlockRecords();
 }
