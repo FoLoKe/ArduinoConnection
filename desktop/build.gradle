@@ -18,25 +18,20 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation group: 'com.miglayout', name: 'miglayout', version: '3.7.4'
-
-}
-
 apply plugin: 'java'
 
 compileJava {
     doFirst {
         options.compilerArgs = [
                 '--module-path', classpath.asPath,
-                '--add-modules', 'javafx.controls,javafx.fxml'
+                '--add-modules', 'javafx.controls,javafx.fxml,javafx.graphics'
         ]
     }
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': "com.foloke.ardconn.Launcher"
+        attributes 'Main-Class': "com.foloke.ardconnd.Launcher"
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
@@ -44,14 +39,21 @@ jar {
 }
 
 createExe {
-    headerType="gui"
-    mainClassName = "com.foloke.ardconn.Launcher"
-    outfile = "AA.exe"
+    headerType="console"
+    mainClassName = "com.foloke.ardconnd.Launcher"
+    outfile = "Ardconn.exe"
+    //copyConfigurable = ['D:\\test\\ArduinoConnection\\desktop\\build\\libs','D:\\OpenJFX\\javafx-sdk-11.0.2\\lib',]
     jar = '../libs/desktop-1.0.jar'
+    bundledJrePath = 'jre'
     jvmOptions = [
             "--module-path lib",
             '--add-modules javafx.controls,javafx.fxml'
     ]
+
+    messagesStartupError = "error"
+    messagesBundledJreError = "jre?"
+    messagesInstanceAlreadyExists = "already opend"
+    messagesLauncherError = "LauncherErr"
 }
 
 eclipse.project.name = appName + "-desktop"

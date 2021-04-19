@@ -1,6 +1,9 @@
 package com.foloke.ardconn;
 
 import jssc.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.util.concurrent.*;
 
@@ -16,6 +19,16 @@ public class Manager {
 
     public Manager(UI ui) {
         this.ui = ui;
+
+        try {
+            //DEBUG
+            SessionFactory sessionFactory = new Configuration().configure()
+                    .buildSessionFactory();
+            Session session = sessionFactory.openSession();
+            session.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 
     public String[] getPorts() {
@@ -42,7 +55,7 @@ public class Manager {
     }
 
     public boolean inProcess;
-    String distance;
+    public String distance;
 
     class SendPacketTask implements Runnable {
         Commands command;

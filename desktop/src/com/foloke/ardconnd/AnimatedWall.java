@@ -1,10 +1,8 @@
-package com.foloke.ardconn;
+package com.foloke.ardconnd;
 
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.control.Label;
@@ -14,7 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;

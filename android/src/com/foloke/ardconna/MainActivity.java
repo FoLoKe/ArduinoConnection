@@ -1,7 +1,8 @@
-package com.example.ardconn;
+package com.foloke.ardconna;
 
 import android.app.Activity;
 import android.os.Bundle;
+import com.example.ardconn.R;
 
 public class MainActivity extends Activity {
 

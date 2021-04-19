@@ -1,11 +1,10 @@
-package com.foloke.ardconn;
+package com.foloke.ardconnd;
 
-import javafx.beans.property.SimpleDoubleProperty;
+import com.foloke.ardconn.Manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 public class RecordsController extends HiddenUI {

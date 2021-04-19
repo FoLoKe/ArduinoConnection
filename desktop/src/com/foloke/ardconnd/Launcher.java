@@ -1,5 +1,7 @@
-package com.foloke.ardconn;
+package com.foloke.ardconnd;
 
+import com.foloke.ardconn.Manager;
+import com.foloke.ardconn.UI;
 import javafx.application.Application;
 import javafx.application.Platform;
 

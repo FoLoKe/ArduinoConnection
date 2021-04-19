@@ -1,3 +1,5 @@
 sourceSets.main.java.srcDirs = [ "src/" ]
-
+sourceSets.main.resources.srcDirs = ["../android/assets"]
 eclipse.project.name = appName + "-core"
+
+

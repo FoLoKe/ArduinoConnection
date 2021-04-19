@@ -1,5 +1,6 @@
-package com.foloke.ardconn;
+package com.foloke.ardconnd;
 
+import com.foloke.ardconn.Manager;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
