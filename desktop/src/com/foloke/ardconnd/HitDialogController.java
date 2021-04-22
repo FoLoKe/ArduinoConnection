@@ -17,8 +17,8 @@ public class HitDialogController extends HiddenUI {
         hitButtonController.setColor(Color.web("#73e82b"));
         missButtonController.setColor(Color.web("#ff2828"));
 
-        missButtonController.setText("MISS");
-        hitButtonController.setText("HIT");
+        missButtonController.setText("НЕТ");
+        hitButtonController.setText("ДА");
     }
 
     public void setMissAction(CoolButtonController.Action action) {

@@ -22,10 +22,10 @@ public class Manager {
 
         try {
             //DEBUG
-            SessionFactory sessionFactory = new Configuration().configure()
-                    .buildSessionFactory();
-            Session session = sessionFactory.openSession();
-            session.close();
+            //SessionFactory sessionFactory = new Configuration().configure()
+            //        .buildSessionFactory();
+            //Session session = sessionFactory.openSession();
+            //session.close();
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -45,10 +45,9 @@ public class Manager {
             serialPort.setParams(SerialPort.BAUDRATE_9600,
                     SerialPort.DATABITS_8,
                     SerialPort.STOPBITS_1,
-                    SerialPort.PARITY_NONE);
+                    SerialPort.PARITY_NONE, false, true);
 
-            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN |
-                    SerialPort.FLOWCONTROL_RTSCTS_OUT);
+            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
         } catch (Exception e) {
             ui.output(e.toString());
         }
@@ -71,7 +70,7 @@ public class Manager {
 
                 ExecutorService executorService = Executors.newSingleThreadExecutor();
                 Future<String> writeResult = executorService.submit(new SendCall(serialPort, command.toString()));
-                ui.showOnWall("Connecting");
+                ui.showOnWall("Подключение...");
                 String response = null;
 
                 if (serialPort != null && serialPort.isOpened()) {
@@ -81,11 +80,11 @@ public class Manager {
 
                     } catch (Exception e) {
                         ui.output(e.toString() + "\n");
-                        ui.showOnWall("TIMEOUT try again");
+                        ui.showOnWall("Превышено время ожидания");
                     }
                 } else {
                     ui.output("please connect to any COM\n");
-                    ui.showOnWall("CONNECT FIRST");
+                    ui.showOnWall("Сначала подключитесь");
                     executorService.shutdownNow();
                     ui.unblock();
                     inProcess = false;
@@ -98,36 +97,35 @@ public class Manager {
                     String value = response.substring(response.indexOf(":") + 1);
 
                     if (!reply.equals("ERROR")) {
-                        ui.showOnWall(reply);
                         ui.output(value + "\n");
 
                         switch (current) {
                             case RELOAD:
                             case DISARM:
-                                ui.showOnWall(value);
+                                ui.showOnWall("ОК");
                                 ui.output(reply + "\n");
                                 break;
                             case SHOOT:
-                                ui.showOnWall(value);
+                                ui.showOnWall("ОК");
                                 ui.output(reply + "\n");
                                 ui.askForHit();
                                 break;
                             case DISTANCE:
-                                ui.showOnWall(value + " m");
-                                ui.output("distance: " + value + " m\n");
+                                ui.showOnWall(value + " м");
+                                ui.output("Дистанция: " + value + " м\n");
                                 distance = value;
                                 break;
                             case NONE:
                                 ui.output("YOU SHOULDN'T SEE THAT TASK NOT CLOSED CORRECTLY");
-                                ui.showOnWall("ERROR\n");
+                                ui.showOnWall("ОШИБКА\n");
                                 break;
                         }
                     } else {
-                        ui.showOnWall(reply);
+                        ui.showOnWall("Ошибка: " + value);
                         ui.output(value);
                     }
                 } else {
-                    ui.showOnWall("ERROR, try again");
+                    ui.showOnWall("ОШИБКА, попробуйте еще раз");
                     ui.output("error getting response\n");
                 }
 
@@ -137,7 +135,7 @@ public class Manager {
                 inProcess = false;
             } else {
                 ui.output("Already sending");
-                ui.showOnWall("PLEASE WAIT");
+                ui.showOnWall("Пожалуйста подождите...");
             }
         }
     }

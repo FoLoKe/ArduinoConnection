@@ -3,6 +3,10 @@ plugins {
     id 'edu.sc.seis.launch4j' version '2.4.6'
 }
 
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
 targetCompatibility = 11
 sourceCompatibility = 11
 
@@ -39,6 +43,7 @@ jar {
 }
 
 createExe {
+
     headerType="console"
     mainClassName = "com.foloke.ardconnd.Launcher"
     outfile = "Ardconn.exe"

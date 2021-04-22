@@ -47,13 +47,13 @@
   <children>
     <MenuBar prefHeight="0.0" prefWidth="615.0" VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" onAction="#menuOpen" onShowing="#menuOpen" text="File">
+        <Menu mnemonicParsing="false" onAction="#menuOpen" onShowing="#menuOpen" text="Файл">
           <items>
-            <Menu fx:id="comMenu" mnemonicParsing="false" text="Open Recent">
+            <Menu fx:id="comMenu" mnemonicParsing="false" text="Подключиться">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Unspecified Action" />
                      </items></Menu>
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem mnemonicParsing="false" text="Отладка" />
           </items>
                <graphic>
                   <Pane fx:id="loadIconPane" minHeight="20.0" minWidth="20.0" />

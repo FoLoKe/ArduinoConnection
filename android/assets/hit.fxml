@@ -11,7 +11,7 @@
    <children>
       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Did you hit it?">
+            <Label text="Попали в цель?">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>

@@ -32,8 +32,8 @@ public class RecordsController extends HiddenUI {
         saveBtnController.setColor(Color.web("#73e82b"));
         cancelBtnController.setColor(Color.web("#ff2828"));
 
-        saveBtnController.setText("SAVE");
-        cancelBtnController.setText("CANCEL");
+        saveBtnController.setText("ДОБАВИТЬ");
+        cancelBtnController.setText("ОТМЕНА");
     }
 
     public void setCancelAction(CoolButtonController.Action action) {
@@ -48,8 +48,8 @@ public class RecordsController extends HiddenUI {
         return nameTextField.getText();
     }
 
-    public void setDistance(String test) {
-        distanceLabel.setText(test);
+    public void setDistance(String distance) {
+        distanceLabel.setText(distance + " м");
     }
 
     public void lock(boolean state) {

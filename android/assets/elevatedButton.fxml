@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="60.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.foloke.ardconnd.CoolButtonController">
    <children>
-      <Rectangle fx:id="backgroundPane" arcHeight="15.0" arcWidth="15.0" fill="#0050ad" height="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0" />
+      <Rectangle fx:id="backgroundPane" arcHeight="15.0" arcWidth="15.0" fill="#0050ad" height="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="120.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0" />
       <Button fx:id="actualButton" mnemonicParsing="false" onMouseClicked="#preformAction" onMouseEntered="#beginOver" onMouseExited="#endOver" onMousePressed="#pressBegin" onMouseReleased="#pressOver" prefWidth="60.0" style="-fx-background-color: #1e90ff; -fx-background-radius: 5;" text="Button" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="16.0" />

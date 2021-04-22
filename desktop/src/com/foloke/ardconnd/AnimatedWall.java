@@ -33,7 +33,7 @@ public class AnimatedWall extends Pane {
         this.uiController = controller;
 
         animatedWallPane = new Pane();
-        distanceLabel = new Label("CHECK DISTANCE");
+        distanceLabel = new Label("Проверить расстояние");
 
         distanceLabel.setTextFill(Color.WHITE);
 

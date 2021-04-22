@@ -120,9 +120,9 @@ public class UIController {
         disarmCoolBtnController.setColor(Color.web("#73e82b"));
         shootCoolBtnController.setColor(Color.web("#ff2828"));
 
-        reloadCoolBtnController.setText("RELOAD");
-        disarmCoolBtnController.setText("DISARM");
-        shootCoolBtnController.setText("SHOOT");
+        reloadCoolBtnController.setText("ЗАРЯД");
+        disarmCoolBtnController.setText("РАЗРЯД");
+        shootCoolBtnController.setText("ОГОНЬ");
 
         hitDialogController.setMissAction(this::closeHitDialog);
         hitDialogController.setHitAction(this::openRecords);
