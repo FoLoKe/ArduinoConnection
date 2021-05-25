@@ -85,7 +85,9 @@ public class RecordsController extends HiddenUI {
     }
 
     public void setRecords(List<Record> records) {
-        ObservableList<Record> list = FXCollections.observableList(records);
-        recordsListView.setItems(list);
+        if(records != null && records.size() > 0) {
+            ObservableList<Record> list = FXCollections.observableList(records);
+            recordsListView.setItems(list);
+        }
     }
 }

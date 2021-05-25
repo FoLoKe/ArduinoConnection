@@ -26,8 +26,7 @@ public class Manager {
 
     public Manager(UI ui) {
         this.ui = ui;
-        distance = new Random().nextInt(4) * 100f;
-        getRecords(10);
+        distance = -1;
     }
 
     public String[] getPorts() {
@@ -115,9 +114,15 @@ public class Manager {
                                     distance = Float.parseFloat(value);
 
                                     StringBuilder sb = new StringBuilder();
+                                    sb.append("Рекомендации: \n");
                                     for (String shell: Manager.shells) {
-                                        int angle = getRecommendation(5, shell, distance);
-                                        sb.append(shell).append(": ").append(angle).append("°\n");
+                                        Integer angle = getRecommendation(5, shell, distance);
+                                        if(angle != null) {
+                                            sb.append(shell).append(": ").append(angle.intValue()).append("°\n");
+                                        } else {
+                                            sb.append("нет подключения\nк базе данных");
+                                            break;
+                                        }
                                     }
 
                                     ui.showOnWall(distance / 100f + " м\n" + sb.toString());
