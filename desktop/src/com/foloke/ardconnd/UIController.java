@@ -94,7 +94,6 @@ public class UIController {
         animatedWall.setActualMouseEvent(event -> {
             animatedWall.animate();
             manager.sendCheckDistanceCommand();
-            System.out.println("click");
         });
 
         gaussianBlur = new GaussianBlur(0);
@@ -130,7 +129,15 @@ public class UIController {
         recordsDialogController.setCancelAction(this::closeRecordsDialog);
         recordsDialogController.setSaveAction(() -> {
                 recordsDialogController.lock(true);
-                writeRecord(recordsDialogController.getName());
+                Float angle = recordsDialogController.getAngle();
+                String choice = recordsDialogController.getChoice();
+                if(angle != null && choice != null
+                && angle >= 0 && angle <=360) {
+                    boolean result = writeRecord(angle, choice);
+                } else {
+                    manager.ui.output("fields are not valid");
+                }
+                unlockRecords();
             }
         );
     }
@@ -157,6 +164,7 @@ public class UIController {
     public void openRecords() {
         hitDialogController.close();
         recordsDialogController.setDistance(manager.distance);
+        recordsDialogController.setRecords(manager.getRecords(10));
         recordsDialogController.open();
     }
 
@@ -206,8 +214,8 @@ public class UIController {
         manager.sendDisarmCommand();
     }
 
-    private void writeRecord(String name) {
-        manager.writeRecord(name);
+    private boolean writeRecord(float angle, String choice) {
+        return manager.writeRecord(angle, choice);
     }
 
     ToggleGroup toggleGroup = new ToggleGroup();
@@ -246,11 +254,6 @@ public class UIController {
 
 
     public void unlockRecords() {
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
         recordsDialogController.lock(false);
     }
 }

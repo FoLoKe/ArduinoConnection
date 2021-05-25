@@ -132,6 +132,9 @@ public class AnimatedWall extends Pane {
         text.setFont(df);
         //text.setStyle("-fx-font-weight: bold");
         double textWidth = text.getLayoutBounds().getWidth();
+        double textHeight = text.getLayoutBounds().getHeight();
+
+        textWidth = Math.max(textWidth, textHeight);
         if(textWidth <= distanceLabel.maxWidthProperty().get() - 10) {
             distanceLabel.setFont(df);
         } else {

@@ -4,7 +4,7 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL92Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.username">testuser</property>
         <property name="hibernate.connection.password"></property>
@@ -14,10 +14,9 @@
 
         <property name="connection_pool_size">1</property>
 
-        <property name="hbm2ddl.auto">create</property>
 
         <property name="show_sql">true</property>
-        <property name="log.level">info</property>
+        <property name="log.level">trace</property>
 
     </session-factory>
 

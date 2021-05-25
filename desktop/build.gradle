@@ -44,7 +44,7 @@ jar {
 
 createExe {
 
-    headerType="console"
+    headerType="gui"
     mainClassName = "com.foloke.ardconnd.Launcher"
     outfile = "Ardconn.exe"
     //copyConfigurable = ['D:\\test\\ArduinoConnection\\desktop\\build\\libs','D:\\OpenJFX\\javafx-sdk-11.0.2\\lib',]

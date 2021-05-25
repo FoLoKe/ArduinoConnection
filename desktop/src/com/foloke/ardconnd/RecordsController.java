@@ -1,23 +1,31 @@
 package com.foloke.ardconnd;
 
 import com.foloke.ardconn.Manager;
+import com.foloke.ardconn.Record;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
-public class RecordsController extends HiddenUI {
-    Manager manager;
+import java.util.List;
 
+public class RecordsController extends HiddenUI {
     @FXML
     Label distanceLabel;
 
     @FXML
-    TextField nameTextField;
+    TextField angleTextField;
 
     @FXML
-    ListView<String> recordsListView;
+    ChoiceBox<String> shellChoiceBox;
+
+    @FXML
+    ListView<Record> recordsListView;
 
     @FXML
     CoolButtonController saveBtnController;
@@ -34,6 +42,10 @@ public class RecordsController extends HiddenUI {
 
         saveBtnController.setText("ДОБАВИТЬ");
         cancelBtnController.setText("ОТМЕНА");
+
+        ObservableList<String> list = FXCollections.observableArrayList(Manager.shells);
+        shellChoiceBox.setItems(list);
+        shellChoiceBox.setValue(list.get(0));
     }
 
     public void setCancelAction(CoolButtonController.Action action) {
@@ -44,12 +56,22 @@ public class RecordsController extends HiddenUI {
         saveBtnController.setAction(action);
     }
 
-    public String getName() {
-        return nameTextField.getText();
+    public Float getAngle() {
+        String value = angleTextField.getText();
+        Float floatValue = null;
+        if (value.matches("\\d*") && value.length() > 0) {
+            floatValue = Float.parseFloat(value);
+        }
+
+        return floatValue;
     }
 
-    public void setDistance(String distance) {
-        distanceLabel.setText(distance + " м");
+    public String getChoice() {
+        return shellChoiceBox.getValue();
+    }
+
+    public void setDistance(float distance) {
+        distanceLabel.setText(distance / 100f + " м");
     }
 
     public void lock(boolean state) {
@@ -60,5 +82,10 @@ public class RecordsController extends HiddenUI {
             cancelBtnController.unlock();
             saveBtnController.unlock();
         }
+    }
+
+    public void setRecords(List<Record> records) {
+        ObservableList<Record> list = FXCollections.observableList(records);
+        recordsListView.setItems(list);
     }
 }
