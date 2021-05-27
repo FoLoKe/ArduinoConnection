@@ -53,7 +53,7 @@
                      <items>
                         <MenuItem mnemonicParsing="false" text="Unspecified Action" />
                      </items></Menu>
-            <MenuItem mnemonicParsing="false" text="Отладка" />
+            <MenuItem fx:id="debugItem" mnemonicParsing="false" text="Отладка" />
           </items>
                <graphic>
                   <Pane fx:id="loadIconPane" minHeight="20.0" minWidth="20.0" />
@@ -63,7 +63,7 @@
     </MenuBar>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.6327272727272727" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="208.0" prefWidth="615.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane fx:id="splitPane" dividerPositions="0.6327272727272727" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="208.0" prefWidth="615.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane fx:id="upperAnchorPane" minHeight="0.0" minWidth="0.0">
                      <children>
@@ -90,7 +90,7 @@
                         <fx:include fx:id="recordsDialog" source="records.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane fx:id="logAnchor" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
                         <TextArea fx:id="log" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="575.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>

@@ -39,7 +39,16 @@ public class UIController {
     public Menu comMenu;
 
     @FXML
+    public MenuItem debugItem;
+
+    @FXML
     public AnchorPane hitDialog;
+
+    @FXML
+    public AnchorPane logAnchor;
+
+    @FXML
+    public SplitPane splitPane;
 
     @FXML
     public HitDialogController hitDialogController;
@@ -53,6 +62,8 @@ public class UIController {
 
     ParallelTransition loadParallelTransition;
 
+    boolean debug;
+
     @FXML
     private void initialize() {
         Rectangle rect = new Rectangle(15, 15);
@@ -64,6 +75,12 @@ public class UIController {
 
         RotateTransition rt = new RotateTransition();
         rt.setNode(rect);
+
+        debug = true;
+        debugItem.setOnAction(event -> {
+            toggleDebug();
+        });
+        toggleDebug();
 
         loadIconPane.getChildren().addAll(rect);
 
@@ -255,5 +272,18 @@ public class UIController {
 
     public void unlockRecords() {
         recordsDialogController.lock(false);
+    }
+
+    public void toggleDebug() {
+        logAnchor.setDisable(debug);
+        logAnchor.setVisible(!debug);
+
+        if(debug) {
+            splitPane.setDividerPositions(1.0);
+        } else {
+            splitPane.setDividerPositions(0.5);
+        }
+
+        debug = !debug;
     }
 }
