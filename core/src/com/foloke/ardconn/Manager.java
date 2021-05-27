@@ -90,7 +90,7 @@ public class Manager {
                 }
 
 
-                if (response != null) {
+                if (response != null && response.contains(":")) {
                     String reply = response.substring(0, response.indexOf(":"));
                     String value = response.substring(response.indexOf(":") + 1);
 
