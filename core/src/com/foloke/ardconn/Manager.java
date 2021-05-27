@@ -15,7 +15,7 @@ import java.util.concurrent.*;
 
 public class Manager {
     private static SerialPort serialPort;
-    public static final ArrayList<String> shells = new ArrayList<>(Arrays.asList("1g", "2g", "3g"));
+    public static final ArrayList<String> shells = new ArrayList<>(Arrays.asList("2г", "4г", "52г"));
     public final UI ui;
 
     enum Commands {
@@ -251,7 +251,11 @@ public class Manager {
                         countQuery.setParameter("end", distance + borders);
                         countResults = countQuery.getSingleResult();
                     }
-                    int lastPageNumber = (int) (Math.ceil(countResults / count));
+
+                    int firstResult = 0;
+                    if(countResults - count > 0) {
+                        firstResult = (int) countResults - count;
+                    }
 
                     TypedQuery<Record> selectQuery
                             = session.createQuery(
@@ -261,16 +265,19 @@ public class Manager {
                     selectQuery.setParameter("shell", choice);
                     selectQuery.setParameter("end", distance + borders);
 
-                    int firstResult = Math.max(0, (lastPageNumber - 1) * count);
+
                     selectQuery.setFirstResult(firstResult);
                     selectQuery.setMaxResults(count);
 
                     List<Record> records = selectQuery.getResultList();
                     long avg = 0;
-                    for(Record record : records) {
-                        avg += record.getAngle();
+
+                    if(records.size() > 0) {
+                        for (Record record : records) {
+                            avg += record.getAngle();
+                        }
+                        avg = avg / records.size();
                     }
-                    avg = avg / records.size();
 
                     recommendation = (int) avg;
                     System.out.println(avg);
@@ -309,10 +316,13 @@ public class Manager {
                     countResults = countQuery.getSingleResult();
                 }
 
-                int lastPageNumber = (int) (Math.ceil(countResults / count));
                 TypedQuery<Record> selectQuery = session.createQuery("From Record", Record.class);
 
-                int firstResult = Math.max(0, (lastPageNumber - 1) * count);
+
+                int firstResult = 0;
+                if(countResults - count > 0) {
+                    firstResult = (int) countResults - count;
+                }
                 selectQuery.setFirstResult(firstResult);
                 selectQuery.setMaxResults(count);
 
