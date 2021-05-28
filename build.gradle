@@ -51,7 +51,7 @@ project(":core") {
 
     dependencies {
         implementation group: 'io.github.java-native', name: 'jssc', version: '2.9.2'
-        implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.20'
         implementation "org.hibernate:hibernate-core:5.4.32.Final"
+        implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
     }
 }

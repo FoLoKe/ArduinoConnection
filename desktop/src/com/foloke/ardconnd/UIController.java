@@ -154,6 +154,7 @@ public class UIController {
                 } else {
                     manager.ui.output("fields are not valid");
                 }
+                recordsDialogController.setRecords(manager.getRecords(10));
                 unlockRecords();
             }
         );
